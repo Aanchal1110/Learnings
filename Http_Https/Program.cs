@@ -8,6 +8,11 @@ app.Run(async (HttpContext context) =>
 {
     if (1 == 1)
     {
+        //statusCode should be 200 but for learning purpose we are making it 400
+        context.Response.Headers["MyKey"] = "my value";
+        context.Response.Headers["Server"] = "My Server";
+        context.Response.Headers["Content-Type"] = "text/html";
+
         context.Response.StatusCode = 400;
     }
     else
