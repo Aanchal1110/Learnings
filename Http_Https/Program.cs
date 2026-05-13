@@ -1,6 +1,8 @@
 //So the HTTP context is a type of object that gets created automatically upon receiving the request.
 //So when the browser sends a request to the Kestrel and the Kestrel forwards the same request to the application code to the ASP .NET Core application, then ASP.NET Core automatically creates an object of type HTTP context and this context contains the information related to your request, response and many more other details.
 
+using Microsoft.Extensions.Primitives;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
@@ -35,8 +37,19 @@ app.Run(async (HttpContext context) =>
             string userAgent = context.Request.Headers["User-Agent"];
             await context.Response.WriteAsync($"<p>{userAgent}</p>");
         }
-        
-        
+
+        //Learned how to get the data from the post request specifically broken the string into the key value pair
+
+        StreamReader reader = new StreamReader(context.Request.Body);
+        string body = await reader.ReadToEndAsync();
+
+        Dictionary<string, StringValues> queryDict = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(body);
+
+        if (queryDict.ContainsKey("age"))
+        {
+            string age = queryDict["age"][0];
+            await context.Response.WriteAsync(age);
+        }
     }
     else
     {
