@@ -9,7 +9,13 @@ app.MapGet("/", () => "Hello World!");
 
 app.Use(async (HttpContext context, RequestDelegate next) =>
 {
-    await context.Response.WriteAsync("Done!");
+    await context.Response.WriteAsync("Hello from first middleware!");
+    await next(context);
+});
+
+app.Use(async (HttpContext context, RequestDelegate next) =>
+{
+    await context.Response.WriteAsync("\n Hello from second middleware!");
     await next(context);
 });
 
