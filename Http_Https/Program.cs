@@ -19,7 +19,7 @@ app.Run(async (HttpContext context) =>
         await context.Response.WriteAsync($"<p>{path}</p>");
         await context.Response.WriteAsync($"<p>{method}</p>");
 
-
+        //QueryString
         if (context.Request.Method == "GET")
         {
             if (context.Request.Query.ContainsKey("id"))
@@ -27,6 +27,13 @@ app.Run(async (HttpContext context) =>
                 string id = context.Request.Query["id"];
                 context.Response.WriteAsync($"<p>{id}</p>");
             }
+        }
+
+        //Request Header is a way in which browser communicates with the server and tells browser what and how to get the things
+        if (context.Request.Headers.ContainsKey("User-Agent"))
+        {
+            string userAgent = context.Request.Headers["User-Agent"];
+            await context.Response.WriteAsync($"<p>{userAgent}</p>");
         }
         
         
