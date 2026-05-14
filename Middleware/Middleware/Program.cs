@@ -1,4 +1,6 @@
+using Middleware.CustomMiddleware;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddTransient<MyCustomMiddleware>();
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
@@ -13,16 +15,12 @@ app.Use(async (HttpContext context, RequestDelegate next) =>
     await next(context);
 });
 
-app.Use(async (HttpContext context, RequestDelegate next) =>
-{
-    await context.Response.WriteAsync("\n Hello from second middleware!");
-    await next(context);
-});
+app.UseMyCustomMiddleWare();
 
 app.Run(async (HttpContext context) =>
 {
 
-    await context.Response.WriteAsync(" Done! in terminal middleware");
+    await context.Response.WriteAsync("\nDone! in terminal middleware");
 });
 
 app.Run();
