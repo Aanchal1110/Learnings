@@ -16,6 +16,7 @@ app.Use(async (HttpContext context, RequestDelegate next) =>
 });
 
 app.UseMyCustomMiddleWare();
+app.UseHelloCustomMiddleware();
 
 app.Run(async (HttpContext context) =>
 {
