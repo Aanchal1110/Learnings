@@ -18,6 +18,17 @@ app.Use(async (HttpContext context, RequestDelegate next) =>
 app.UseMyCustomMiddleWare();
 app.UseHelloCustomMiddleware();
 
+app.UseWhen(context => context.Request.Query.ContainsKey("Username"), app =>
+{
+    app.Use(async (context, next) =>
+    {
+        string username = context.Request.Query["Username"];
+
+        await context.Response.WriteAsync("\n Hello from UseWhen Middlerwaer" + " " + $"{username}");
+        await next(context);
+    });
+});
+
 app.Run(async (HttpContext context) =>
 {
 
