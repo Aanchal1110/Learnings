@@ -8,7 +8,7 @@ namespace IActionResultExample.Controllers
         public IActionResult Index()
 
         {
-           
+
             if (!Request.Query.ContainsKey("bookid"))
             {
                 //Response.StatusCode = 400;
@@ -18,13 +18,14 @@ namespace IActionResultExample.Controllers
 
             }
 
-            if (string.IsNullOrEmpty(Convert.ToString((Request.Query["bookid"])))){
+            if (string.IsNullOrEmpty(Convert.ToString((Request.Query["bookid"]))))
+            {
 
                 //Response.StatusCode = 400;
                 //return Content("Bookid cannnot be empty");
                 return StatusCode(401);
             }
-           int bookid=Convert.ToInt32(Request.Query["bookid"]);
+            int bookid = Convert.ToInt32(Request.Query["bookid"]);
             if (bookid <= 0)
             {
                 //Response.StatusCode = 400;
@@ -50,8 +51,17 @@ namespace IActionResultExample.Controllers
                 return new NotFoundObjectResult("User must be logged in");
             }
 
-            return File(@"/sample.pdf", "application/pdf");
-            
+            //return File(@"/sample.pdf", "application/pdf");
+            //return RedirectToAction("Book", "Redirection", "book/store");//->302
+            //return RedirectToActionPermanent("Book", "Redirection", "book/store");//->301
+
+
+            //return new RedirectToActionResult("Book", "Redirection", new {id=bookid }); //302
+            //return new RedirectToActionResult("Book", "Redirection", new { }, permanent: true); ->301
+
+            //return LocalRedirect($"/book/store/{bookid}");
+            return LocalRedirectPermanent($"/book/store/{bookid}");
+
         }
     }
 }
