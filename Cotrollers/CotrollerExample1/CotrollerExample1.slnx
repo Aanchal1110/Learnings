@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../IActionResultExample/IActionResultExample.csproj" Id="95cebf2a-4347-4551-b17c-e5db6f9ac74f" />
+  <Project Path="CotrollerExample1.csproj" />
+</Solution>
